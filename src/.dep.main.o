@@ -1,0 +1,1 @@
+main.o: main.cpp log.h shmq.h config.h global.h plugin.h mem_pool.h

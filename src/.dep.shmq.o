@@ -1,0 +1,1 @@
+shmq.o: shmq.cpp log.h shmq.h

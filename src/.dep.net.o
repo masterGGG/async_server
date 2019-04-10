@@ -1,0 +1,2 @@
+net.o: net.cpp log.h shmq.h global.h plugin.h reactor.h tcp_linker.h \
+ mem_pool.h

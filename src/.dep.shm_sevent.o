@@ -1,0 +1,2 @@
+shm_sevent.o: shm_sevent.cpp log.h shmq.h global.h plugin.h shm_sevent.h \
+ reactor.h tcp_socket.h mem_pool.h

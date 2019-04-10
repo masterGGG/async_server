@@ -1,0 +1,2 @@
+tcp_socket.o: tcp_socket.cpp log.h mem_pool.h plugin.h global.h \
+ tcp_socket.h reactor.h shmq.h

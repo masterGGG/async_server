@@ -1,0 +1,2 @@
+conn.o: conn.cpp log.h shmq.h config.h plugin.h global.h reactor.h \
+ tcp_accept.h shm_sevent.h
