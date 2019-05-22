@@ -10,14 +10,16 @@ enum {
     PROTO_BLOCK
 };
 
+/*请求回复队列的每个数据包的结构*/
 struct shm_block_t {
-    int fd;
+    int fd;         //连接套接字
     uint32_t id;
     uint32_t len;
     uint8_t type;
-    uint8_t buf[];
+    uint8_t buf[];  //数据流
 };
 
+//数据队列的头部结构
 struct shm_head_t {
     volatile uint32_t inited;
     volatile uint32_t idle;
@@ -25,10 +27,11 @@ struct shm_head_t {
     volatile uint32_t r_pos;
 };
 
+//数据队列的基础信息
 struct shm_queue_t {
-    uint8_t *base;
-    uint32_t size;
-    struct shm_head_t *head;
+    uint8_t *base;              //共享内存的写入起始地址
+    uint32_t size;              //共享队列的长度
+    struct shm_head_t *head;    //
     uint8_t *pull_buf;
     uint32_t pull_len;
     std::list<shm_block_t *> push_list;

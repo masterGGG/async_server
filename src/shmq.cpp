@@ -142,6 +142,7 @@ bool shmq_init(uint32_t channel, uint32_t size)
 
         g_shm_queue_mgr.recv_queue[i].base = p + sizeof(struct shm_head_t);
         g_shm_queue_mgr.recv_queue[i].size = size - sizeof(struct shm_head_t);
+        //pull_buf 的作用是从数据包队列中取出一个数据包，避免在队列上直接操作数据造成问题。
         g_shm_queue_mgr.recv_queue[i].pull_buf = (uint8_t *)malloc(8192);
         g_shm_queue_mgr.recv_queue[i].pull_len = 8192;
         g_shm_queue_mgr.recv_queue[i].head = (struct shm_head_t *)p;
@@ -159,7 +160,7 @@ bool shmq_init(uint32_t channel, uint32_t size)
             ret = -1;
             break;
         }
-
+        //共享队列的维护一个
         g_shm_queue_mgr.send_queue[i].base = p + sizeof(struct shm_head_t);
         g_shm_queue_mgr.send_queue[i].size = size - sizeof(struct shm_head_t);
         g_shm_queue_mgr.send_queue[i].pull_buf = (uint8_t *)malloc(8192);

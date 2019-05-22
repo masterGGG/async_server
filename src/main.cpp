@@ -34,6 +34,24 @@ static inline int rlimit_reset()
 {
     // 上调打开文件数的限制
     struct rlimit rl = {0};
+
+    /**
+     * @brief getrlimit
+     *RLIMIT_AS //进程的最大虚内存空间，字节为单位。
+     RLIMIT_CORE //内核转存文件的最大长度。
+     RLIMIT_CPU //最大允许的CPU使用时间，秒为单位。当进程达到软限制，内核将给其发送SIGXCPU信号，这一信号的默认行为是终止进程的执行。然而，可以捕捉信号，处理句柄可将控制返回给主程序。如果进程继续耗费CPU时间，核心会以每秒一次的频率给其发送SIGXCPU信号，直到达到硬限制，那时将给进程发送 SIGKILL信号终止其执行。
+     RLIMIT_DATA //进程数据段的最大值。
+     RLIMIT_FSIZE //进程可建立的文件的最大长度。如果进程试图超出这一限制时，核心会给其发送SIGXFSZ信号，默认情况下将终止进程的执行。
+     RLIMIT_LOCKS //进程可建立的锁和租赁的最大值。
+     RLIMIT_MEMLOCK //进程可锁定在内存中的最大数据量，字节为单位。
+     RLIMIT_MSGQUEUE //进程可为POSIX消息队列分配的最大字节数。
+     RLIMIT_NICE //进程可通过setpriority() 或 nice()调用设置的最大完美值。
+     RLIMIT_NOFILE //指定比进程可打开的最大文件描述词大一的值，超出此值，将会产生EMFILE错误。
+     RLIMIT_NPROC //用户可拥有的最大进程数。
+     RLIMIT_RTPRIO //进程可通过sched_setscheduler 和 sched_setparam设置的最大实时优先级。
+     RLIMIT_SIGPENDING //用户可拥有的最大挂起信号数。
+     RLIMIT_STACK //最大的进程堆栈，以字节为单位。
+     */
     if (getrlimit(RLIMIT_NOFILE, &rl) == -1)
     {
         printf("ERROR: getrlimit.\n");
@@ -68,7 +86,7 @@ static void daemon_start()
 
     struct sigaction sa;
     memset(&sa, 0, sizeof(sa));
-    sa.sa_handler = sigterm_handler;
+    sa.sa_handler = sigterm_handler;        //注册信号处理器
     sigaction(SIGINT, &sa, NULL);
     sigaction(SIGHUP, &sa, NULL);
     sigaction(SIGTERM, &sa, NULL);
@@ -125,9 +143,11 @@ int check_single()
 
 int main(int argc, char* argv[])
 {
+    //全局变量，定义在global.h里，记录的是可执行程序的名字
     arg_start = argv[0];
+    //
     arg_end = argv[argc-1] + strlen(argv[argc - 1]) + 1;
-    env_start = environ[0];
+    env_start = environ[0];             //当前进程环境变量的起始地址
 
     if (argc != 2)
         exit(-1);
@@ -136,12 +156,27 @@ int main(int argc, char* argv[])
 
     INFO_LOG ("async_server %s, report bugs to <cliu.hust@hotmail.com>", VERSION);
 
+    /**
+     * @brief load_config_file 
+     * 定义在config.cpp中，从配置文件读取配置到内存，用map<string, string>存储
+     * @param argv[1]   配置文件路径
+     */
     load_config_file(argv[1]);
 
+    /**
+     * @brief check_single
+     * 将pid写入文件
+     */
     check_single();
 
     if (config_get_strval("proc_name", NULL))
     {
+        /**
+         * @brief set_title 
+         * 定义于global.cpp 145行，设置进程的名字
+         * @param "%s-MAIN"
+         * @param "proc_name", NULL
+         */
         set_title("%s-MAIN", config_get_strval("proc_name", NULL));
     }
     else
