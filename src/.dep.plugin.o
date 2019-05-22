@@ -1,1 +1,0 @@
-plugin.o: plugin.cpp log.h plugin.h

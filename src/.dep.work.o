@@ -1,2 +1,0 @@
-work.o: work.cpp log.h shmq.h config.h plugin.h global.h shm_revent.h \
- reactor.h

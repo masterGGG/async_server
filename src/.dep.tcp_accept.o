@@ -1,2 +1,0 @@
-tcp_accept.o: tcp_accept.cpp log.h global.h tcp_accept.h reactor.h \
- tcp_socket.h mem_pool.h

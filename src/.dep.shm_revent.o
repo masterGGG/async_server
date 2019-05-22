@@ -1,2 +1,0 @@
-shm_revent.o: shm_revent.cpp log.h shmq.h global.h plugin.h shm_revent.h \
- reactor.h

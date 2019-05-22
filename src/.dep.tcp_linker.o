@@ -1,2 +1,0 @@
-tcp_linker.o: tcp_linker.cpp log.h mem_pool.h plugin.h tcp_linker.h \
- reactor.h global.h
