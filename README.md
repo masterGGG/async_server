@@ -8,7 +8,7 @@ conn进程和work进程之间的通信通过**管道pipe**和**共享内存**实
 产生一个主进程，主进程执行一系列的工作后会产生一个或者多个工作进程；
 - conn  （建立连接和数据包收发）
 - work （请求包的业务逻辑处理）
-
+![网络通信图](https://github.com/masterGGG/async_server/raw/master/async_server-IO.PNG)
 
 # Question
 ## 客户端连接和网络框架建立连接的过程
